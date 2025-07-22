@@ -22,11 +22,14 @@ type ScreenshotResult struct {
 }
 
 // Screenshot is an MCP tool that takes a screenshot using the existing chromedp context.
-func Screenshot(ctx context.Context, cc *mcp.ServerSession, params *mcp.CallToolParamsFor[ScreenshotParams]) (*ScreenshotResult, error) {
+func Screenshot(ctx context.Context, cc *mcp.ServerSession, params *mcp.CallToolParamsFor[ScreenshotParams]) (*mcp.CallToolResultFor[ScreenshotResult], error) {
 	if ChromeCtx == nil {
-		return &ScreenshotResult{
-			Success: false,
-			Message: "ChromeDP context is not initialized",
+		return &mcp.CallToolResultFor[ScreenshotResult]{
+			StructuredContent: ScreenshotResult{
+				Success: false,
+				Message: "ChromeDP context is not initialized",
+			},
+			IsError: true,
 		}, nil
 	}
 
@@ -42,21 +45,30 @@ func Screenshot(ctx context.Context, cc *mcp.ServerSession, params *mcp.CallTool
 		)
 	}
 	if err != nil {
-		return &ScreenshotResult{
-			Success: false,
-			Message: "Screenshot failed: " + err.Error(),
+		return &mcp.CallToolResultFor[ScreenshotResult]{
+			StructuredContent: ScreenshotResult{
+				Success: false,
+				Message: "Screenshot failed: " + err.Error(),
+			},
+			IsError: true,
 		}, nil
 	}
 
 	if writeErr := os.WriteFile(params.Arguments.FilePath, buf, 0644); writeErr != nil {
-		return &ScreenshotResult{
-			Success: false,
-			Message: "Failed to save screenshot: " + writeErr.Error(),
+		return &mcp.CallToolResultFor[ScreenshotResult]{
+			StructuredContent: ScreenshotResult{
+				Success: false,
+				Message: "Failed to save screenshot: " + writeErr.Error(),
+			},
+			IsError: true,
 		}, nil
 	}
 
-	return &ScreenshotResult{
-		Success: true,
-		Message: "Screenshot saved to " + params.Arguments.FilePath,
+	return &mcp.CallToolResultFor[ScreenshotResult]{
+		StructuredContent: ScreenshotResult{
+			Success: true,
+			Message: "Screenshot saved to " + params.Arguments.FilePath,
+		},
+		IsError: false,
 	}, nil
 }

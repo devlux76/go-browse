@@ -12,7 +12,7 @@ import (
 
 func main() {
 	server := mcp.NewServer(&mcp.Implementation{
-		Name:    "chromedp-mcp",
+		Name:    "go-browse",
 		Version: "v1.0.0",
 	}, nil)
 
