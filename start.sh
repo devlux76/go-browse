@@ -30,13 +30,14 @@ if ! curl -sf "$CHROME_DEVTOOLS_URL" > /dev/null; then
     echo "[WARN] Default Chrome profile not found. Chrome will start with a fresh profile."
   fi
 
+
   echo "[INFO] Launching Chrome with remote debugging on port $PORT using temp profile..."
-  "$BROWSER_CMD" \
+  nohup "$BROWSER_CMD" \
     --remote-debugging-port=$PORT \
     --user-data-dir="$TEMP_PROFILE" \
     --no-first-run \
     --no-default-browser-check \
-    --disable-popup-blocking &
+    --disable-popup-blocking > /dev/null 2>&1 &
 
   # Wait for Chrome DevTools to become available
   for i in {1..10}; do

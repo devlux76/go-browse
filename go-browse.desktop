@@ -1,0 +1,10 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=go-browse
+Comment=Launch go-browse Chrome DevTools AI browser
+Exec=/workspaces/go-browse/start.sh
+Icon=google-chrome
+Terminal=true
+Categories=Network;WebBrowser;
+StartupNotify=true
