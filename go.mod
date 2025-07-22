@@ -4,6 +4,7 @@ go 1.24.5
 
 require (
 	github.com/chromedp/chromedp v0.13.7
+	github.com/kenshaw/rasterm v0.1.14
 	github.com/modelcontextprotocol/go-sdk v0.2.0
 )
 
@@ -14,6 +15,9 @@ require (
 	github.com/gobwas/httphead v0.1.0 // indirect
 	github.com/gobwas/pool v0.2.1 // indirect
 	github.com/gobwas/ws v1.4.0 // indirect
+	github.com/mattn/go-sixel v0.0.5 // indirect
+	github.com/soniakeys/quant v1.0.0 // indirect
 	github.com/yosida95/uritemplate/v3 v3.0.2 // indirect
-	golang.org/x/sys v0.29.0 // indirect
+	golang.org/x/sys v0.33.0 // indirect
+	golang.org/x/term v0.32.0 // indirect
 )

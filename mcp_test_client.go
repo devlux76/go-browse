@@ -53,23 +53,37 @@ func main() {
 		return line, err
 	}
 
-	// 1. Stat
-	statReq := MCPRequest{
+	// 1. Launch Browser
+	launchReq := MCPRequest{
 		ID:     1,
+		Method: "launch_browser",
+	}
+	fmt.Println("Sending launch_browser request...")
+	send(launchReq)
+	resp, err := readResp()
+	if err != nil && err != io.EOF {
+		fmt.Println("Error reading response:", err)
+	} else {
+		fmt.Println("launch_browser response:", resp)
+	}
+
+	// 2. Stat
+	statReq := MCPRequest{
+		ID:     2,
 		Method: "stat",
 	}
 	fmt.Println("Sending stat request...")
 	send(statReq)
-	resp, err := readResp()
+	resp, err = readResp()
 	if err != nil && err != io.EOF {
 		fmt.Println("Error reading response:", err)
 	} else {
 		fmt.Println("stat response:", resp)
 	}
 
-	// 2. List tools
+	// 3. List tools
 	listReq := MCPRequest{
-		ID:     2,
+		ID:     3,
 		Method: "list_tools",
 	}
 	fmt.Println("Sending list_tools request...")
@@ -81,9 +95,9 @@ func main() {
 		fmt.Println("list_tools response:", resp)
 	}
 
-	// 3. Navigate
+	// 4. Navigate
 	navReq := MCPRequest{
-		ID:     3,
+		ID:     4,
 		Method: "navigate",
 		Params: map[string]interface{}{"url": "https://theendoftheinternet.com"},
 	}
