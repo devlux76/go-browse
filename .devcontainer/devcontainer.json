@@ -15,5 +15,6 @@
             ]
         }
     },
-    "postCreateCommand": "go version"
+    "postCreateCommand": "go version",
+    "remoteUser": "ubuntu"
 }

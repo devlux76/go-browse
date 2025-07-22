@@ -31,16 +31,7 @@ RUN wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | gpg --dearm
     DEBIAN_FRONTEND=noninteractive apt-get install -y google-chrome-stable && \
     rm -rf /var/lib/apt/lists/*
 
-# Set up a non-root user (VS Code default)
-ARG USERNAME=vscode
-ARG USER_UID=1000
-ARG USER_GID=$USER_UID
-RUN if ! getent group $USER_GID; then groupadd --gid $USER_GID $USERNAME; fi \
-    && if ! id -u $USERNAME >/dev/null 2>&1; then useradd --uid $USER_UID --gid $USER_GID -m $USERNAME; fi \
-    && echo "$USERNAME ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers.d/$USERNAME \
-    && chmod 0440 /etc/sudoers.d/$USERNAME
-
-USER $USERNAME
+USER ubuntu
 WORKDIR /workspace
 
 # Default shell
