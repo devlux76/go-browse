@@ -27,11 +27,3 @@ if ! curl -sf "$CHROME_DEVTOOLS_URL" > /dev/null; then
 fi
 
 
-# Launch browser with remote debugging enabled
-"$BROWSER_CMD" \
-  --remote-debugging-port=$PORT \
-  --user-data-dir="$PROFILE_DIR" \
-  --no-first-run \
-  --no-default-browser-check \
-  "$@"
-
