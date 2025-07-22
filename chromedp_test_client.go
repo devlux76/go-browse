@@ -19,7 +19,7 @@ import (
 
 func main() {
 	verbose := flag.Bool("v", false, "verbose")
-	urlstr := flag.String("url", "ws://127.0.0.1:9222", "devtools url")
+	urlstr := flag.String("url", "ws://host.docker.internal:9222", "devtools url")
 	nav := flag.String("nav", "https://www.duckduckgo.com/", "nav")
 	d := flag.Duration("d", 1*time.Second, "wait duration")
 	flag.Parse()
