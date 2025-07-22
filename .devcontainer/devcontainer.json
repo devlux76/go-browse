@@ -9,7 +9,9 @@
                 "terminal.integrated.shell.linux": "/bin/bash"
             },
             "extensions": [
-                "golang.Go"
+                "golang.Go",
+                "kilocode.kilo-code",
+                "GitHub.copilot"
             ]
         }
     },
