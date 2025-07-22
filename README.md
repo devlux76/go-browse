@@ -1,23 +1,17 @@
 # go-browse
 
+## This project exposes Chrome Developer Tools (CDP) to an AI by wrapping them in a model context protocol server.
+
+It relies on https://github.com/modelcontextprotocol/go-sdk to provide the MCP paradigms and semantics. It also relies on https://github.com/chromedp/chromedp to provide the connection to a chrome browser.
+
+
 ## Getting Started
 
 This project requires a browser running on your host machine with the Chrome DevTools Protocol enabled. The browser is not included or run inside this container or app.
 
-### 1. Start Your Browser with DevTools Protocol
+There is a "start.sh" that will launch the user's browser with the correct settings so that our MCP can connect to it.
 
-Before using this app, you must start your browser (Chrome, Edge, or Brave) with remote debugging enabled. Use the provided script for your platform:
-
-- **Linux/macOS:**
-  ```sh
-  ./launch-chrome-devtools.sh
-  ```
-- **Windows:**
-  ```bat
-  launch-chrome-devtools.bat
-  ```
-
-You may set the `CHROME_PATH` environment variable to specify your browser executable (e.g., `google-chrome`, `microsoft-edge`, `brave-browser`).
+There is a binary (along with a docker container if you wish), called go-browse that provides the CDP interface wrapped up in an MCP for AI consumption.
 
 ### 2. Why?
 
@@ -26,7 +20,8 @@ This app connects to your browser via the DevTools Protocol to enable advanced a
 ### 3. Troubleshooting
 
 - Make sure your browser is started with the script above before using this app.
-- The app connects to `host.docker.internal:9222` by default.
+- When running in docker the server connects to `host.docker.internal:9222` by default, otherwise it will connect to localhost:9222.
+
 - Only Chrome, Edge, and Brave (Chromium-based) are supported.
 
 ---
