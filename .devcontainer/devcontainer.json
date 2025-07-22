@@ -1,0 +1,17 @@
+{
+    "name": "Go DevContainer (Ubuntu 24.04)",
+    "build": {
+        "dockerfile": "Dockerfile"
+    },
+    "customizations": {
+        "vscode": {
+            "settings": {
+                "terminal.integrated.shell.linux": "/bin/bash"
+            },
+            "extensions": [
+                "golang.Go"
+            ]
+        }
+    },
+    "postCreateCommand": "go version"
+}
