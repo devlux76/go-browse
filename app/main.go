@@ -33,6 +33,14 @@ func typeText(ctx context.Context, selector, text string) error {
 	return chromedp.Run(ctx, chromedp.SendKeys(selector, text))
 }
 
+// Parameters for chrome_devtools tool
+type ChromeDevToolsParams struct {
+	Action   string `json:"action" jsonschema:"Action to perform: navigate, click, type, screenshot"`
+	URL      string `json:"url,omitempty" jsonschema:"URL to navigate to"`
+	Selector string `json:"selector,omitempty" jsonschema:"CSS selector for click/type actions"`
+	Text     string `json:"text,omitempty" jsonschema:"Text to type (for type action)"`
+}
+
 // Takes a screenshot of the current page
 func screenshot(ctx context.Context) ([]byte, error) {
 	var buf []byte
@@ -45,48 +53,6 @@ func getConsoleLogs(ctx context.Context) ([]string, error) {
 	// chromedp does not provide direct log capture, would need to use ListenTarget
 	// This is a placeholder for future extension
 	return []string{}, nil
-}
-
-// Parameters for chrome_devtools tool
-type ChromeDevToolsParams struct {
-	Action   string `json:"action" jsonschema:"Action to perform: navigate, click, type, screenshot"`
-	URL      string `json:"url,omitempty" jsonschema:"URL to navigate to"`
-	Selector string `json:"selector,omitempty" jsonschema:"CSS selector for click/type actions"`
-	Text     string `json:"text,omitempty" jsonschema:"Text to type (for type action)"`
-}
-
-func ChromeDevTools(ctx context.Context, cc *mcp.ServerSession, params *mcp.CallToolParamsFor[ChromeDevToolsParams]) (*mcp.CallToolResultFor[any], error) {
-	bctx, cancel, err := launchBrowser()
-	if err != nil {
-		return nil, err
-	}
-	defer cancel()
-
-	switch params.Arguments.Action {
-	case "navigate":
-		if err := navigate(bctx, params.Arguments.URL); err != nil {
-			return nil, err
-		}
-		return &mcp.CallToolResultFor[any]{Content: []mcp.Content{&mcp.TextContent{Text: "Navigated to " + params.Arguments.URL}}}, nil
-	case "click":
-		if err := click(bctx, params.Arguments.Selector); err != nil {
-			return nil, err
-		}
-		return &mcp.CallToolResultFor[any]{Content: []mcp.Content{&mcp.TextContent{Text: "Clicked " + params.Arguments.Selector}}}, nil
-	case "type":
-		if err := typeText(bctx, params.Arguments.Selector, params.Arguments.Text); err != nil {
-			return nil, err
-		}
-		return &mcp.CallToolResultFor[any]{Content: []mcp.Content{&mcp.TextContent{Text: "Typed in " + params.Arguments.Selector}}}, nil
-	case "screenshot":
-		img, err := screenshot(bctx)
-		if err != nil {
-			return nil, err
-		}
-		return &mcp.CallToolResultFor[any]{Content: []mcp.Content{&mcp.ImageContent{Image: img, MimeType: "image/png"}}}, nil
-	default:
-		return &mcp.CallToolResultFor[any]{Content: []mcp.Content{&mcp.TextContent{Text: "Unknown action"}}}, nil
-	}
 }
 
 type HiParams struct {
@@ -104,7 +70,6 @@ func main() {
 	server := mcp.NewServer(&mcp.Implementation{Name: "greeter", Version: "v1.0.0"}, nil)
 
 	mcp.AddTool(server, &mcp.Tool{Name: "greet", Description: "say hi"}, SayHi)
-	mcp.AddTool(server, &mcp.Tool{Name: "chrome_devtools", Description: "Interact with Chrome via chromedp"}, ChromeDevTools)
 	// Run the server over stdin/stdout, until the client disconnects
 	if err := server.Run(context.Background(), mcp.NewStdioTransport()); err != nil {
 		log.Fatal(err)
