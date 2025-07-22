@@ -23,6 +23,7 @@ type NavigateResult struct {
 func Navigate(ctx context.Context, cc *mcp.ServerSession, params *mcp.CallToolParamsFor[NavigateParams]) (*mcp.CallToolResultFor[NavigateResult], error) {
 	if ChromeCtx == nil {
 		return &mcp.CallToolResultFor[NavigateResult]{
+			Content: []mcp.Content{},
 			StructuredContent: NavigateResult{
 				Success: false,
 				Message: "ChromeDP context is not initialized",
@@ -33,6 +34,7 @@ func Navigate(ctx context.Context, cc *mcp.ServerSession, params *mcp.CallToolPa
 	err := chromedp.Run(ChromeCtx, chromedp.Navigate(params.Arguments.URL))
 	if err != nil {
 		return &mcp.CallToolResultFor[NavigateResult]{
+			Content: []mcp.Content{},
 			StructuredContent: NavigateResult{
 				Success: false,
 				Message: "Navigation failed: " + err.Error(),
@@ -41,6 +43,7 @@ func Navigate(ctx context.Context, cc *mcp.ServerSession, params *mcp.CallToolPa
 		}, nil
 	}
 	return &mcp.CallToolResultFor[NavigateResult]{
+		Content: []mcp.Content{},
 		StructuredContent: NavigateResult{
 			Success: true,
 			Message: "Navigation succeeded",

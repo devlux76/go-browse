@@ -23,6 +23,7 @@ func CloseBrowser(ctx context.Context, cc *mcp.ServerSession, params *mcp.CallTo
 		ChromeCtx = nil
 		ChromeCancel = nil
 		return &mcp.CallToolResultFor[CloseBrowserResult]{
+			Content: []mcp.Content{},
 			StructuredContent: CloseBrowserResult{
 				Success: true,
 				Message: "Browser closed successfully",
@@ -31,6 +32,7 @@ func CloseBrowser(ctx context.Context, cc *mcp.ServerSession, params *mcp.CallTo
 		}, nil
 	}
 	return &mcp.CallToolResultFor[CloseBrowserResult]{
+		Content: []mcp.Content{},
 		StructuredContent: CloseBrowserResult{
 			Success: false,
 			Message: "No browser session to close",

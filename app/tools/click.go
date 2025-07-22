@@ -23,6 +23,7 @@ type ClickResult struct {
 func Click(ctx context.Context, cc *mcp.ServerSession, params *mcp.CallToolParamsFor[ClickParams]) (*mcp.CallToolResultFor[ClickResult], error) {
 	if ChromeCtx == nil {
 		return &mcp.CallToolResultFor[ClickResult]{
+			Content: []mcp.Content{},
 			StructuredContent: ClickResult{
 				Success: false,
 				Message: "ChromeDP context is not initialized",
@@ -33,6 +34,7 @@ func Click(ctx context.Context, cc *mcp.ServerSession, params *mcp.CallToolParam
 	err := chromedp.Run(ChromeCtx, chromedp.Click(params.Arguments.Selector))
 	if err != nil {
 		return &mcp.CallToolResultFor[ClickResult]{
+			Content: []mcp.Content{},
 			StructuredContent: ClickResult{
 				Success: false,
 				Message: "Click failed: " + err.Error(),
@@ -41,6 +43,7 @@ func Click(ctx context.Context, cc *mcp.ServerSession, params *mcp.CallToolParam
 		}, nil
 	}
 	return &mcp.CallToolResultFor[ClickResult]{
+		Content: []mcp.Content{},
 		StructuredContent: ClickResult{
 			Success: true,
 			Message: "Click succeeded",

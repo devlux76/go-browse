@@ -21,6 +21,7 @@ func LaunchBrowser(ctx context.Context, cc *mcp.ServerSession, params *mcp.CallT
 	InitChromeDPContext()
 	if ChromeCtx == nil {
 		return &mcp.CallToolResultFor[LaunchBrowserResult]{
+			Content: []mcp.Content{},
 			StructuredContent: LaunchBrowserResult{
 				Success: false,
 				Message: "Failed to initialize ChromeDP context",
@@ -29,6 +30,7 @@ func LaunchBrowser(ctx context.Context, cc *mcp.ServerSession, params *mcp.CallT
 		}, nil
 	}
 	return &mcp.CallToolResultFor[LaunchBrowserResult]{
+		Content: []mcp.Content{},
 		StructuredContent: LaunchBrowserResult{
 			Success: true,
 			Message: "ChromeDP context initialized",

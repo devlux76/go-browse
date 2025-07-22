@@ -24,6 +24,7 @@ type TypeTextResult struct {
 func TypeText(ctx context.Context, cc *mcp.ServerSession, params *mcp.CallToolParamsFor[TypeTextParams]) (*mcp.CallToolResultFor[TypeTextResult], error) {
 	if ChromeCtx == nil {
 		return &mcp.CallToolResultFor[TypeTextResult]{
+			Content: []mcp.Content{},
 			StructuredContent: TypeTextResult{
 				Success: false,
 				Message: "ChromeDP context is not initialized",
@@ -34,6 +35,7 @@ func TypeText(ctx context.Context, cc *mcp.ServerSession, params *mcp.CallToolPa
 	err := chromedp.Run(ChromeCtx, chromedp.SendKeys(params.Arguments.Selector, params.Arguments.Text))
 	if err != nil {
 		return &mcp.CallToolResultFor[TypeTextResult]{
+			Content: []mcp.Content{},
 			StructuredContent: TypeTextResult{
 				Success: false,
 				Message: "TypeText failed: " + err.Error(),
@@ -42,6 +44,7 @@ func TypeText(ctx context.Context, cc *mcp.ServerSession, params *mcp.CallToolPa
 		}, nil
 	}
 	return &mcp.CallToolResultFor[TypeTextResult]{
+		Content: []mcp.Content{},
 		StructuredContent: TypeTextResult{
 			Success: true,
 			Message: "TypeText succeeded",
