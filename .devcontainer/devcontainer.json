@@ -16,5 +16,8 @@
         }
     },
     "postCreateCommand": "go version",
-    "remoteUser": "ubuntu"
+    "remoteUser": "ubuntu",
+    "runArgs": [
+        "--add-host=host.docker.internal:host-gateway"
+    ]
 }
