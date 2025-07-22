@@ -22,6 +22,7 @@ func main() {
 	mcp.AddTool(server, &mcp.Tool{Name: "type_text", Description: "Type text into an element"}, tools.TypeText)
 	mcp.AddTool(server, &mcp.Tool{Name: "screenshot", Description: "Take a screenshot"}, tools.Screenshot)
 	mcp.AddTool(server, &mcp.Tool{Name: "close_browser", Description: "Close the browser"}, tools.CloseBrowser)
+	mcp.AddTool(server, &mcp.Tool{Name: "stat", Description: "Check browser connection status"}, tools.Stat)
 
 	log.Println("Starting MCP server on stdio")
 	if err := server.Run(context.Background(), mcp.NewStdioTransport()); err != nil {
